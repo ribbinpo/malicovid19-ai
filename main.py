@@ -1,7 +1,8 @@
 # uvicorn main:app --reload
 from typing import Optional
 from fastapi import FastAPI
-from components.prediction.predictionAlgorithm import predict
+from components.algorithm.prediction import predict
+from components.algorithm.train import train
 app = FastAPI()
 
 #CORS 
@@ -19,10 +20,14 @@ def read_root():
 def read_item(item_id: int, q: Optional[str] = None):
     return {"item_id": item_id, "q": q}
 
-@app.get("/predict")
+@app.get("/api/predict")
 async def prediction():
     result = await predict()
     return result
+@app.get("/api/train")
+def training():
+    train()
+    return "success"
 
 if __name__ == "__main__":
     # app.run(debug=False)
