@@ -1,6 +1,7 @@
 # uvicorn main:app --reload
 from typing import Optional
 from fastapi import FastAPI
+import json
 from components.algorithm.prediction import predict
 from components.algorithm.train import train
 app = FastAPI()
@@ -23,7 +24,8 @@ def read_item(item_id: int, q: Optional[str] = None):
 @app.get("/api/predict")
 async def prediction():
     result = await predict()
-    return result
+    return json.dumps(result)
+
 @app.get("/api/train")
 def training():
     train()
