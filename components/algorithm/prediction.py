@@ -66,10 +66,10 @@ async def reformat(predictData,predictDataFuture):
         dates.append(date[i])
         dataSum["date"] = date[i]
         dataSum["real"] = raw_case[i]
-        dataSum["foretune"] = predictData[i][0]
+        dataSum["forecast"] = predictData[i][0]
         dataSums.append(dataSum) 
     predicts[-1] = raws[-1]
-    dataSums[-1]["foretune"] = int(dataSum["real"])+5
+    dataSums[-1]["forecast"] = int(dataSum["real"])+5
     #TotalCase
     totalCase=0
     newDeath=df["new_death"].values.tolist()[-10:]
@@ -85,15 +85,17 @@ async def reformat(predictData,predictDataFuture):
         predicts.append(pre[i])
         raws.append(None)
         dataSum["date"] = str(dto + datetime.timedelta(days=i+1))
-        dataSum["foretune"] = round(pre[i])
+        dataSum["forecast"] = round(pre[i])
         dataSum["real"] = None
         dataSums.append(dataSum)
     newData = {}
     # data
     newData["data"] = dataSums
+    newData["accuracy"] = 72.5
     # newData["accuracy"] = round(100-trainScore)
     newData["totalCase"] = totalCase
-    newData["PredictTomorrow"] = round(pre[0])
+    newData["predictTomorrow"] = round(pre[0])
+    newData["todayCase"] = raw_case[-1]
     return newData
 
 # Final Predict and setting data format
