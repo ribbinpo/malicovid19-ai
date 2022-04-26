@@ -90,6 +90,7 @@ async def reformat(predictData,predictDataFuture):
         dataSums.append(dataSum)
     newData = {}
     # data
+    newData["date"] = date[-1]
     newData["data"] = dataSums
     newData["accuracy"] = 72.5
     # newData["accuracy"] = round(100-trainScore)
