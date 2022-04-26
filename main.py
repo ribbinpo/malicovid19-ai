@@ -5,6 +5,8 @@ import json
 from components.algorithm.prediction import predict
 from components.algorithm.train import train
 app = FastAPI()
+from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
 
 #CORS 
 # origins = [
@@ -24,7 +26,9 @@ def read_item(item_id: int, q: Optional[str] = None):
 @app.get("/api/predict")
 async def prediction():
     result = await predict()
-    return json.dumps(result)
+    json_compatible_item_data = jsonable_encoder(result)
+    return JSONResponse(content=json_compatible_item_data)
+    # return json.dumps(result)
 
 @app.get("/api/train")
 def training():
