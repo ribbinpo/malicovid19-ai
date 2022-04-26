@@ -123,7 +123,8 @@ async def predict():
         x_pred = np.array([x_pred.tolist()])
         y_pred = model.predict(x_pred,batch_size=1)[0][0]
         predictDataFuture.append(y_pred)
-        predictDataFuture = scaler.inverse_transform(np.array(predictDataFuture).reshape(-1,1)).reshape(-1).tolist()
+    predictDataFuture = scaler.inverse_transform(np.array(predictDataFuture).reshape(-1,1)).reshape(-1).tolist()
+    # print(predictDataFuture)
     newData = await reformat(predictData,predictDataFuture)
     return newData
 
