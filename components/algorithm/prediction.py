@@ -56,7 +56,7 @@ async def reformat(predictData,predictDataFuture):
     date = df["txn_date"].values.tolist()
     #Old case
     for i in range(len(predictData)):
-        dataSum = {}
+        # dataSum = {}
         if str(predictData[i][0]) == "nan":
             predictData[i][0] = None
         else:
@@ -64,12 +64,12 @@ async def reformat(predictData,predictDataFuture):
         predicts.append(predictData[i][0])
         raws.append(raw_case[i])
         dates.append(date[i])
-        dataSum["date"] = date[i]
-        dataSum["real"] = raw_case[i]
-        dataSum["forecast"] = predictData[i][0]
-        dataSums.append(dataSum) 
+        # dataSum["date"] = date[i]
+        # dataSum["real"] = raw_case[i]
+        # dataSum["forecast"] = predictData[i][0]
+        # dataSums.append(dataSum) 
     predicts[-1] = raws[-1]
-    dataSums[-1]["forecast"] = int(dataSum["real"])+5
+    # dataSums[-1]["forecast"] = int(dataSum["real"])+5
     #TotalCase
     totalCase=0
     newDeath=df["new_death"].values.tolist()[-10:]
@@ -80,16 +80,17 @@ async def reformat(predictData,predictDataFuture):
     pre = predictDataFuture
     dto = datetime.datetime.strptime(date[-1], '%Y-%m-%d').date()
     for i in range(len(pre)):
-        dataSum = {}
+        # dataSum = {}
         dates.append(str(dto + datetime.timedelta(days=i+1)))
         predicts.append(pre[i])
         raws.append(None)
-        dataSum["date"] = str(dto + datetime.timedelta(days=i+1))
-        dataSum["forecast"] = round(pre[i])
-        dataSum["real"] = None
-        dataSums.append(dataSum)
+        # dataSum["date"] = str(dto + datetime.timedelta(days=i+1))
+        # dataSum["forecast"] = round(pre[i])
+        # dataSum["real"] = None
+        # dataSums.append(dataSum)
     newData = {}
     # data
+    dataSums = {"date":dates,"real":raws,"forecast":predicts}
     newData["date"] = date[-1]
     newData["data"] = dataSums
     newData["accuracy"] = 72.5
