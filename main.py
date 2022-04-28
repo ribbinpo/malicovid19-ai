@@ -1,9 +1,10 @@
 # uvicorn main:app --reload
 from typing import Optional
 from fastapi import FastAPI
-import json
-from components.algorithm.prediction import predict
+from components.algorithm.prediction import predictV1,predictV2
 from components.algorithm.train import train
+from components.algorithm.analysis import getInformation
+
 app = FastAPI()
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
@@ -15,20 +16,32 @@ from fastapi.encoders import jsonable_encoder
 # ]
 
 
-@app.get("/")
-def read_root():
-    return {"data": "Hello World"}
+# @app.get("/")
+# def read_root():
+#     return {"data": "Hello World"}
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
+# @app.get("/items/{item_id}")
+# def read_item(item_id: int, q: Optional[str] = None):
+#     return {"item_id": item_id, "q": q}
 
 @app.get("/api/predict")
 async def prediction():
-    result = await predict()
-    json_compatible_item_data = jsonable_encoder(result)
-    return JSONResponse(content=json_compatible_item_data)
+    result = await predictV1()
+    result_json = jsonable_encoder(result)
+    return JSONResponse(content=result_json)
     # return json.dumps(result)
+
+@app.get("/api/covid19lstm")
+async def LSTM():
+    result = await predictV2()
+    result_json = jsonable_encoder(result)
+    return JSONResponse(content = result_json)
+
+@app.get("/api/covid19-information")
+def information():
+    result = getInformation()
+    result_json = jsonable_encoder(result)
+    return JSONResponse(content = result_json)
 
 @app.get("/api/train")
 def training():
