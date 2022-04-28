@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from keras.models import load_model
 import datetime
-
+import os
 #joblib for read file scaler
 import joblib
 
@@ -10,12 +10,18 @@ model = None
 
 # Setup impotent var
 async def configModel():
+    file = os.listdir("assets/models/LSTM")
+    for i in range(len(file)):
+        if not (file[i].startswith("model")):
+            modelPath = file[i-1]
+            break
+    scalerPath = file[-1]
     #load model .h5
-    model = load_model("assets/models/LSTM/model1.h5")
+    model = load_model(os.path.join("assets/models/LSTM/",modelPath))
     #load scaler .save
-    scaler = joblib.load("assets/models/LSTM/scaler1.save")
+    scaler = joblib.load(os.path.join("assets/models/LSTM/",scalerPath))
     #load local dataset or api(request)
-    df = pd.read_csv("assets/datasets/dataset1.csv")
+    df = pd.read_csv(os.path.join("assets/datasets/",os.listdir("assets/datasets/")[-1]))
     return model,scaler,df
 
 # Prepare data for prediction or train model
@@ -101,7 +107,7 @@ async def reformat(predictData,predictDataFuture):
     return newData
 
 # Final Predict and setting data format
-async def predict():
+async def predictV1():
     global model,scaler,df,look_back
     look_back = 7
     newData = 0
@@ -127,6 +133,12 @@ async def predict():
     # print(predictDataFuture)
     newData = await reformat(predictData,predictDataFuture)
     return newData
+
+async def predictV2():
+    newData = await predictV1()
+    data = {}
+    data["data"] = newData["data"]
+    return data
 
 # Train model
 async def trainModel():
