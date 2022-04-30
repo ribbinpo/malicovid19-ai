@@ -67,7 +67,7 @@ async def reformat(predictData,predictDataFuture):
             predictData[i][0] = None
         else:
             predictData[i][0] = round(predictData[i][0]) 
-        predicts.append(predictData[i][0])
+        predicts.append((predictData[i][0]))
         raws.append(raw_case[i])
         dates.append(date[i])
         # dataSum["date"] = date[i]
@@ -88,7 +88,7 @@ async def reformat(predictData,predictDataFuture):
     for i in range(len(pre)):
         # dataSum = {}
         dates.append(str(dto + datetime.timedelta(days=i+1)))
-        predicts.append(pre[i])
+        predicts.append(round(pre[i]))
         raws.append(None)
         # dataSum["date"] = str(dto + datetime.timedelta(days=i+1))
         # dataSum["forecast"] = round(pre[i])
@@ -99,7 +99,7 @@ async def reformat(predictData,predictDataFuture):
     dataSums = {"date":dates,"real":raws,"forecast":predicts}
     newData["date"] = date[-1]
     newData["data"] = dataSums
-    newData["accuracy"] = 72.5
+    newData["accuracy"] = round(100-(0.3682260946322276*100))
     # newData["accuracy"] = round(100-trainScore)
     newData["totalCase"] = totalCase
     newData["predictTomorrow"] = round(pre[0])
@@ -137,7 +137,9 @@ async def predictV1():
 async def predictV2():
     newData = await predictV1()
     data = {}
-    data["data"] = newData["data"]
+    # Forcast: Date:
+    data["date"] = newData["data"]["date"][-7:]
+    data["cases"] = newData["data"]["forecast"][-7:]
     return data
 
 # Train model
