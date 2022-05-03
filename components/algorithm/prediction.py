@@ -22,7 +22,7 @@ async def configModel():
     #load scaler .save
     scaler = joblib.load(os.path.join("assets/models/LSTM/","scaler3.save"))
     #load local dataset or api(request)
-    df = pd.read_csv(os.path.join("assets/datasets/","datasets3.csv"))
+    df = pd.read_csv(os.path.join("assets/datasets/","dataset3.csv"))
     return model,scaler,df
 
 # Prepare data for prediction or train model
