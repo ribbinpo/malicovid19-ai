@@ -1,8 +1,9 @@
 import numpy as np 
 import pandas as pd
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 from keras.models import load_model
 import datetime
-import os
 #joblib for read file scaler
 import joblib
 
@@ -17,11 +18,11 @@ async def configModel():
             break
     scalerPath = file[-1]
     #load model .h5
-    model = load_model(os.path.join("assets/models/LSTM/",modelPath))
+    model = load_model(os.path.join("assets/models/LSTM/","model3.h5"))
     #load scaler .save
-    scaler = joblib.load(os.path.join("assets/models/LSTM/",scalerPath))
+    scaler = joblib.load(os.path.join("assets/models/LSTM/","scaler3.save"))
     #load local dataset or api(request)
-    df = pd.read_csv(os.path.join("assets/datasets/",os.listdir("assets/datasets/")[-1]))
+    df = pd.read_csv(os.path.join("assets/datasets/","datasets3.csv"))
     return model,scaler,df
 
 # Prepare data for prediction or train model

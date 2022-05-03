@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import datetime
 import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 import requests
 import numpy as np
 

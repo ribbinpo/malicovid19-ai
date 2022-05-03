@@ -43,10 +43,10 @@ def information():
     result_json = jsonable_encoder(result)
     return JSONResponse(content = result_json)
 
-@app.get("/api/train")
-def training():
-    train()
-    return "success"
+# @app.get("/api/train")
+# def training():
+#     train()
+#     return "success"
 
 if __name__ == "__main__":
     # app.run(debug=False)
