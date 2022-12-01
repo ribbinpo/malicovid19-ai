@@ -1,20 +1,28 @@
 # uvicorn main:app --reload
 from typing import Optional
 from fastapi import FastAPI
-from components.algorithm.prediction import predictV1,predictV2
-from components.algorithm.train import train
-from components.algorithm.analysis import getInformation
+from fastapi.middleware.cors import CORSMiddleware
+
+from routes import covid19_v1, seird
+
+#CORS
+origins = [
+    "http://localhost:3000",
+    "*"
+]
 
 app = FastAPI()
-from fastapi.responses import JSONResponse
-from fastapi.encoders import jsonable_encoder
 
-#CORS 
-# origins = [
-#     "http://localhost:3000",
-#     "*"
-# ]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
+app.include_router(covid19_v1.router)
+app.include_router(seird.router)
 
 # @app.get("/")
 # def read_root():
@@ -23,30 +31,6 @@ from fastapi.encoders import jsonable_encoder
 # @app.get("/items/{item_id}")
 # def read_item(item_id: int, q: Optional[str] = None):
 #     return {"item_id": item_id, "q": q}
-
-@app.get("/api/predict")
-async def prediction():
-    result = await predictV1()
-    result_json = jsonable_encoder(result)
-    return JSONResponse(content=result_json)
-    # return json.dumps(result)
-
-@app.get("/api/covid19lstm")
-async def LSTM():
-    result = await predictV2()
-    result_json = jsonable_encoder(result)
-    return JSONResponse(content = result_json)
-
-@app.get("/api/covid19-information")
-def information():
-    result = getInformation()
-    result_json = jsonable_encoder(result)
-    return JSONResponse(content = result_json)
-
-# @app.get("/api/train")
-# def training():
-#     train()
-#     return "success"
 
 if __name__ == "__main__":
     # app.run(debug=False)

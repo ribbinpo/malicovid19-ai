@@ -3,3 +3,6 @@ __pycache__/
 components/__pycache__/
 prediction/__pycache__/
 environment/
+
+# ENV
+env/
