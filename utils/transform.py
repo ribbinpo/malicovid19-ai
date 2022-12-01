@@ -19,10 +19,11 @@ def seird_params(df_params, wave):
   alpha = df_params.loc[df_params.wave == wave]['alpha'].tolist()[0]
   omega = df_params.loc[df_params.wave == wave]['omega'].tolist()[0]
   R_0 = df_params.loc[df_params.wave == wave]['R_0'].tolist()[0]
+  zeta = df_params.loc[df_params.wave == wave]['zeta'].tolist()[0]
   # zeta = 10 # wave1
-  # zeta = 13 # wave2
-  # zeta = 15 # wave3
-  # zeta = 20 # wave4
+  # # zeta = 13 # wave2
+  # # zeta = 15 # wave3
+  # # zeta = 20 # wave4
   beta = df_params.loc[df_params.wave == wave]['beta'].tolist()[0]
   days = df_params.loc[df_params.wave == wave]['days'].tolist()[0]
 

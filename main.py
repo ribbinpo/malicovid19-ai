@@ -3,7 +3,7 @@ from typing import Optional
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routes import covid19_v1, seird
+from routes import covid19_v1, seird, seirds, lstm, lstm_seird
 
 #CORS
 origins = [
@@ -23,6 +23,9 @@ app.add_middleware(
 
 app.include_router(covid19_v1.router)
 app.include_router(seird.router)
+app.include_router(seirds.router)
+app.include_router(lstm.router)
+app.include_router(lstm_seird.router)
 
 # @app.get("/")
 # def read_root():

@@ -6,18 +6,18 @@ from services.read_datasets import df_wave
 from components.train.seird import process
 from components.evaluate.seird import accurate
 
-from assets.models.seird.model import eq
+from assets.models.seirds.model import eq
 
 #APIRouter creates path operations for item module
 router = APIRouter(
-    prefix="/api/seird",
+    prefix="/api/seirds",
     tags=["graph"],
     responses={404: {"description": "Not found"}},
 )
 
 @router.get("/result")
-async def SEIRD(wave: int):
-  df_params = pd.read_csv('assets/models/seird/seird_params.csv')
+async def SEIRDS(wave: int):
+  df_params = pd.read_csv('assets/models/seirds/seirds_params.csv')
   params = seird_params(df_params, wave)
   print(params)
   result, ranges = await process(eq, params)
@@ -61,7 +61,7 @@ async def SEIRD(wave: int):
   }
 
 @router.get("/train")
-async def SEIRD_train(N, days, S0, E0, I0, R0, D0, gamma, delta, alpha, omega, R_0, zeta, beta, wave):
+async def SEIRDS_train(N, days, S0, E0, I0, R0, D0, gamma, delta, alpha, omega, R_0, zeta, beta, wave):
   params = [N, days, S0, E0, I0, R0, D0, gamma, delta, alpha, omega, R_0, zeta, beta]
   df_params = pd.read_csv('assets/models/seird/seird_params.csv')
   print(params)
